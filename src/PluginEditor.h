@@ -15,7 +15,10 @@ private:
 
     chowdsp::ParametersView params_view;
     juce::TextButton model_load_button;
+    juce::Label model_name_label;
     std::shared_ptr<juce::FileChooser> file_chooser;
+
+    chowdsp::ScopedCallback model_name_changed_callback;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PluginEditor)
 };

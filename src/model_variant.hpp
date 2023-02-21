@@ -1,19 +1,20 @@
 #include <variant>
 #include <RTNeural/RTNeural.h>
 
-using ModelType_GRU_8_1 = RTNeural::ModelT<float, 1, 1, RTNeural::GRULayerT<float, 1, 8>, RTNeural::DenseT<float, 8, 1>>;
-using ModelType_LSTM_32_2 = RTNeural::ModelT<float, 2, 2, RTNeural::LSTMLayerT<float, 2, 32>, RTNeural::DenseT<float, 32, 2>>;
-using ModelType_LSTM_16_2 = RTNeural::ModelT<float, 2, 2, RTNeural::LSTMLayerT<float, 2, 16>, RTNeural::DenseT<float, 16, 2>>;
-using ModelType_LSTM_8_2 = RTNeural::ModelT<float, 2, 2, RTNeural::LSTMLayerT<float, 2, 8>, RTNeural::DenseT<float, 8, 2>>;
-using ModelType_GRU_16_1 = RTNeural::ModelT<float, 1, 1, RTNeural::GRULayerT<float, 1, 16>, RTNeural::DenseT<float, 16, 1>>;
-using ModelType_GRU_32_1 = RTNeural::ModelT<float, 1, 1, RTNeural::GRULayerT<float, 1, 32>, RTNeural::DenseT<float, 32, 1>>;
-using ModelType_GRU_16_2 = RTNeural::ModelT<float, 2, 2, RTNeural::GRULayerT<float, 2, 16>, RTNeural::DenseT<float, 16, 2>>;
-using ModelType_GRU_32_2 = RTNeural::ModelT<float, 2, 2, RTNeural::GRULayerT<float, 2, 32>, RTNeural::DenseT<float, 32, 2>>;
-using ModelType_LSTM_8_1 = RTNeural::ModelT<float, 1, 1, RTNeural::LSTMLayerT<float, 1, 8>, RTNeural::DenseT<float, 8, 1>>;
-using ModelType_LSTM_32_1 = RTNeural::ModelT<float, 1, 1, RTNeural::LSTMLayerT<float, 1, 32>, RTNeural::DenseT<float, 32, 1>>;
-using ModelType_LSTM_16_1 = RTNeural::ModelT<float, 1, 1, RTNeural::LSTMLayerT<float, 1, 16>, RTNeural::DenseT<float, 16, 1>>;
-using ModelType_GRU_8_2 = RTNeural::ModelT<float, 2, 2, RTNeural::GRULayerT<float, 2, 8>, RTNeural::DenseT<float, 8, 2>>;
-using ModelVariantType = std::variant<ModelType_GRU_8_1,ModelType_LSTM_32_2,ModelType_LSTM_16_2,ModelType_LSTM_8_2,ModelType_GRU_16_1,ModelType_GRU_32_1,ModelType_GRU_16_2,ModelType_GRU_32_2,ModelType_LSTM_8_1,ModelType_LSTM_32_1,ModelType_LSTM_16_1,ModelType_GRU_8_2>;
+struct NullModel { static constexpr int input_size = 0; static constexpr int output_size = 0; };
+using ModelType_GRU_8_1 = RTNeural::ModelT<float, 1, 1, RTNeural::GRULayerT<float, 1, 8>, RTNeural::DenseT<float, 8, 8>, RTNeural::SigmoidActivationT<float, 8>, RTNeural::DenseT<float, 8, 1>>;
+using ModelType_LSTM_32_2 = RTNeural::ModelT<float, 2, 2, RTNeural::LSTMLayerT<float, 2, 32>, RTNeural::DenseT<float, 32, 32>, RTNeural::SigmoidActivationT<float, 32>, RTNeural::DenseT<float, 32, 2>>;
+using ModelType_LSTM_16_2 = RTNeural::ModelT<float, 2, 2, RTNeural::LSTMLayerT<float, 2, 16>, RTNeural::DenseT<float, 16, 16>, RTNeural::SigmoidActivationT<float, 16>, RTNeural::DenseT<float, 16, 2>>;
+using ModelType_LSTM_8_2 = RTNeural::ModelT<float, 2, 2, RTNeural::LSTMLayerT<float, 2, 8>, RTNeural::DenseT<float, 8, 8>, RTNeural::SigmoidActivationT<float, 8>, RTNeural::DenseT<float, 8, 2>>;
+using ModelType_GRU_16_1 = RTNeural::ModelT<float, 1, 1, RTNeural::GRULayerT<float, 1, 16>, RTNeural::DenseT<float, 16, 16>, RTNeural::SigmoidActivationT<float, 16>, RTNeural::DenseT<float, 16, 1>>;
+using ModelType_GRU_32_1 = RTNeural::ModelT<float, 1, 1, RTNeural::GRULayerT<float, 1, 32>, RTNeural::DenseT<float, 32, 32>, RTNeural::SigmoidActivationT<float, 32>, RTNeural::DenseT<float, 32, 1>>;
+using ModelType_GRU_16_2 = RTNeural::ModelT<float, 2, 2, RTNeural::GRULayerT<float, 2, 16>, RTNeural::DenseT<float, 16, 16>, RTNeural::SigmoidActivationT<float, 16>, RTNeural::DenseT<float, 16, 2>>;
+using ModelType_GRU_32_2 = RTNeural::ModelT<float, 2, 2, RTNeural::GRULayerT<float, 2, 32>, RTNeural::DenseT<float, 32, 32>, RTNeural::SigmoidActivationT<float, 32>, RTNeural::DenseT<float, 32, 2>>;
+using ModelType_LSTM_8_1 = RTNeural::ModelT<float, 1, 1, RTNeural::LSTMLayerT<float, 1, 8>, RTNeural::DenseT<float, 8, 8>, RTNeural::SigmoidActivationT<float, 8>, RTNeural::DenseT<float, 8, 1>>;
+using ModelType_LSTM_32_1 = RTNeural::ModelT<float, 1, 1, RTNeural::LSTMLayerT<float, 1, 32>, RTNeural::DenseT<float, 32, 32>, RTNeural::SigmoidActivationT<float, 32>, RTNeural::DenseT<float, 32, 1>>;
+using ModelType_LSTM_16_1 = RTNeural::ModelT<float, 1, 1, RTNeural::LSTMLayerT<float, 1, 16>, RTNeural::DenseT<float, 16, 16>, RTNeural::SigmoidActivationT<float, 16>, RTNeural::DenseT<float, 16, 1>>;
+using ModelType_GRU_8_2 = RTNeural::ModelT<float, 2, 2, RTNeural::GRULayerT<float, 2, 8>, RTNeural::DenseT<float, 8, 8>, RTNeural::SigmoidActivationT<float, 8>, RTNeural::DenseT<float, 8, 2>>;
+using ModelVariantType = std::variant<NullModel,ModelType_GRU_8_1,ModelType_LSTM_32_2,ModelType_LSTM_16_2,ModelType_LSTM_8_2,ModelType_GRU_16_1,ModelType_GRU_32_1,ModelType_GRU_16_2,ModelType_GRU_32_2,ModelType_LSTM_8_1,ModelType_LSTM_32_1,ModelType_LSTM_16_1,ModelType_GRU_8_2>;
 
 inline bool is_model_type_ModelType_GRU_8_1 (const nlohmann::json& model_json) {
     const auto rnn_layer_type = model_json.at ("layers").at (0).at ("type").get<std::string>();
@@ -136,53 +137,54 @@ inline bool is_model_type_ModelType_GRU_8_2 (const nlohmann::json& model_json) {
 }
 
 inline bool custom_model_creator (const nlohmann::json& model_json, ModelVariantType& model) {
-    if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
+    if (is_model_type_ModelType_GRU_8_1 (model_json)) {
+        model.emplace<ModelType_GRU_8_1>();
+        return true;
+    }
+    else if (is_model_type_ModelType_LSTM_32_2 (model_json)) {
+        model.emplace<ModelType_LSTM_32_2>();
+        return true;
+    }
+    else if (is_model_type_ModelType_LSTM_16_2 (model_json)) {
+        model.emplace<ModelType_LSTM_16_2>();
+        return true;
+    }
+    else if (is_model_type_ModelType_LSTM_8_2 (model_json)) {
+        model.emplace<ModelType_LSTM_8_2>();
+        return true;
+    }
+    else if (is_model_type_ModelType_GRU_16_1 (model_json)) {
+        model.emplace<ModelType_GRU_16_1>();
+        return true;
+    }
+    else if (is_model_type_ModelType_GRU_32_1 (model_json)) {
+        model.emplace<ModelType_GRU_32_1>();
+        return true;
+    }
+    else if (is_model_type_ModelType_GRU_16_2 (model_json)) {
+        model.emplace<ModelType_GRU_16_2>();
+        return true;
+    }
+    else if (is_model_type_ModelType_GRU_32_2 (model_json)) {
+        model.emplace<ModelType_GRU_32_2>();
+        return true;
+    }
+    else if (is_model_type_ModelType_LSTM_8_1 (model_json)) {
+        model.emplace<ModelType_LSTM_8_1>();
+        return true;
+    }
+    else if (is_model_type_ModelType_LSTM_32_1 (model_json)) {
+        model.emplace<ModelType_LSTM_32_1>();
+        return true;
+    }
+    else if (is_model_type_ModelType_LSTM_16_1 (model_json)) {
+        model.emplace<ModelType_LSTM_16_1>();
         return true;
     }
     else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
         model.emplace<ModelType_GRU_8_2>();
         return true;
     }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
-    else if (is_model_type_ModelType_GRU_8_2 (model_json)) {
-        model.emplace<ModelType_GRU_8_2>();
-        return true;
-    }
+    model.emplace<NullModel>();
     return false;
 }

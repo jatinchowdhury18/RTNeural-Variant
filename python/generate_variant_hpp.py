@@ -15,8 +15,10 @@ for filename in os.listdir(directory):
         rnn_layer_type = f'RTNeural::GRULayerT<float, {io_dim}, {rnn_dim}>'
     elif layer_type == 'LSTM':
         rnn_layer_type = f'RTNeural::LSTMLayerT<float, {io_dim}, {rnn_dim}>'
-    dense_layer_type = f'RTNeural::DenseT<float, {rnn_dim}, {io_dim}>'
-    model_type = f'RTNeural::ModelT<float, {io_dim}, {io_dim}, {rnn_layer_type}, {dense_layer_type}>'
+    dense_layer_type_1 = f'RTNeural::DenseT<float, {rnn_dim}, {rnn_dim}>'
+    activation_layer_type = f'RTNeural::SigmoidActivationT<float, {rnn_dim}>'
+    dense_layer_type_2 = f'RTNeural::DenseT<float, {rnn_dim}, {io_dim}>'
+    model_type = f'RTNeural::ModelT<float, {io_dim}, {io_dim}, {rnn_layer_type}, {dense_layer_type_1}, {activation_layer_type}, {dense_layer_type_2}>'
     model_type_alias = f'ModelType_{layer_type}_{rnn_dim}_{io_dim}'
     model_variant_types.append(model_type_alias)
 
@@ -37,8 +39,9 @@ with open("src/model_variant.hpp", "w") as header_file:
     header_file.write('#include <RTNeural/RTNeural.h>\n')
     header_file.write('\n')
 
+    header_file.write('struct NullModel { static constexpr int input_size = 0; static constexpr int output_size = 0; };\n')
     header_file.writelines(model_variant_using_declarations)
-    header_file.write(f'using ModelVariantType = std::variant<{",".join(model_variant_types)}>;\n')
+    header_file.write(f'using ModelVariantType = std::variant<NullModel,{",".join(model_variant_types)}>;\n')
     header_file.write('\n')
 
     header_file.writelines(model_type_checkers)
@@ -46,11 +49,12 @@ with open("src/model_variant.hpp", "w") as header_file:
     header_file.write('inline bool custom_model_creator (const nlohmann::json& model_json, ModelVariantType& model) {\n')
     if_statement = 'if'
     for type_checker, alias in zip(model_type_checkers, model_variant_types):
-        header_file.write(f'    {if_statement} (is_model_type_{model_type_alias} (model_json)) {{\n')
-        header_file.write(f'        model.emplace<{model_type_alias}>();\n')
+        header_file.write(f'    {if_statement} (is_model_type_{alias} (model_json)) {{\n')
+        header_file.write(f'        model.emplace<{alias}>();\n')
         header_file.write(f'        return true;\n')
         header_file.write('    }\n')
         if_statement = 'else if'
+    header_file.write(f'    model.emplace<NullModel>();\n')
     header_file.write(f'    return false;\n')
     header_file.write('}\n')
 
