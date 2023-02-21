@@ -8,7 +8,6 @@ set(PRODUCT_NAME "RTNeuralVariant")
 
 add_subdirectory(modules)
 
-# juce_set_vst2_sdk_path(C:/SDKs/VST_SDK/VST2_SDK)
 # set default plugin formats to build
 if(IOS)
     set(JUCE_FORMATS Standalone AUv3)
@@ -20,12 +19,6 @@ endif()
 if(UNIX AND NOT APPLE)
     message(STATUS "Building LV2 plugin format")
     list(APPEND JUCE_FORMATS LV2)
-endif()
-
-# Build VST2 is SDK set
-if(TARGET juce_vst2_sdk)
-    message(STATUS "Building VST2 plugin format")
-    list(APPEND JUCE_FORMATS VST)
 endif()
 
 juce_add_plugin(RTNeuralVariant
@@ -50,21 +43,11 @@ if(NOT IOS)
     )
 endif()
 
-juce_generate_juce_header(RTNeuralVariant)
 add_subdirectory(src)
 include_directories(src)
-add_subdirectory(res)
 
 target_compile_definitions(RTNeuralVariant PUBLIC
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
 target_link_libraries(RTNeuralVariant PRIVATE juce_plugin_modules)
-
-# we need these flags for notarization on MacOS
-option(MACOS_RELEASE "Set build flags for MacOS Release" OFF)
-if(MACOS_RELEASE)
-    message(STATUS "Setting MacOS release flags...")
-    set_target_properties(RTNeuralVariant_Standalone PROPERTIES
-        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME YES)
-endif()

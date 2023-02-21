@@ -1,6 +1,9 @@
 add_subdirectory(JUCE)
 add_subdirectory(chowdsp_utils)
 
+set(RTNEURAL_XSIMD ON CACHE BOOL "Use RTNeural with XSIMD backend" FORCE)
+add_subdirectory(RTNeural)
+
 subproject_version(JUCE juce_version)
 message(STATUS "VERSION for JUCE: ${juce_version}")
 subproject_version(chowdsp_utils chowdsp_version)
@@ -10,14 +13,18 @@ include(cmake/WarningFlags.cmake)
 add_library(juce_plugin_modules STATIC)
 target_link_libraries(juce_plugin_modules
     PRIVATE
-        BinaryData
         juce::juce_audio_utils
         juce::juce_dsp
         chowdsp::chowdsp_plugin_base
+        chowdsp::chowdsp_plugin_state
+        chowdsp::chowdsp_gui
+        chowdsp::chowdsp_filters
+        chowdsp::chowdsp_dsp_utils
+        RTNeural
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
-        warning_flags
+        juce::juce_recommended_warning_flags
 )
 
 if(NOT IOS)
